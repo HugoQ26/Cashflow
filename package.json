@@ -1,5 +1,5 @@
 {
-  "name": "shopping_new",
+  "name": "cashflow",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,6 +9,10 @@
   },
   "author": "Martin K.",
   "license": "ISC",
+  "keywords": [
+    "cashflow",
+    "heroku"
+  ],
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.3.1",
@@ -21,5 +25,8 @@
     "lodash": "^4.17.11",
     "mongoose": "^5.4.14",
     "pug": "^2.0.3"
+  },
+  "engines": {
+    "node": "10.15.1"
   }
 }
