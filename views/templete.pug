@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+html(lang="pl")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible", content="ie=edge")
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="stylesheet" href="/stylesheets/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous")
+    link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous")
+    script(src="/javascripts/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous")
+    title= title
+  body
+    .container-fluid
+    .row
+      .col  
+        nav.navbar.navbar-expand-lg.navbar-light.bg-info.shadow-sm
+          a.navbar-brand(href='/')            
+            h3.text-light.font-weight-bold Cashflow meter  
+              span
+                i.fas.fa-chart-line 
+          button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+            span.navbar-toggler-icon
+          #navbarSupportedContent.collapse.navbar-collapse
+            ul.navbar-nav.mr-auto
+              li.nav-item.active
+              if isLogin
+                a.nav-link.text-light.ml-2(href='/additem')
+                  h5 Dodaj wydatek 
+                  span.sr-only (current)
+              //- li.nav-item
+              //-   h4.text-light.border.rounded.p-2.mx-1 #{new Date().getHours() +' : ' + new Date().getMinutes() }
+              //- li.nav-item.dropdown
+              //-   a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+              //-     | Dropdown
+              //-   .dropdown-menu(aria-labelledby='navbarDropdown')
+              //-     a.dropdown-item(href='#') Action
+              //-     a.dropdown-item(href='#') Another action
+              //-     .dropdown-divider
+              //-     a.dropdown-item(href='#') Something else here
+              //- li.nav-item
+              //-   a.nav-link.disabled(href='#', tabindex='-1', aria-disabled='true') Disabled              
+            if !isLogin
+              a(href='/login').text-light.border.rounded.p-2.mx-1 Login
+            if isLogin
+              a(href='/logout').text-light.border.rounded.p-2.mx-1 Logout
+            if !isLogin
+              a(href='/signup', tabindex='-1').text-light.border.rounded.p-2.mx-4 Signup
+    block content
+    

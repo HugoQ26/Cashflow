@@ -1,0 +1,29 @@
+extends templete.pug
+
+block content 
+  .row.ml-2.mr-2        
+    each years, year in all                    
+      each months, month in years
+        - var allTotal = 0;  
+        .col-12.col-md-6.col-sm-6.col-lg-4.col-xl-3
+          .card.mt-2.shadow
+            h4.card-header.text-center.bg-info.text-light #{mths[month]} #{year} 
+            .card-body.pb-1
+              each categories, category in months                                
+                - var total = 0;                 
+                each item in categories                      
+                  - total += item.price
+                .row
+                  .col
+                    h5.card-text #{category}: 
+                  .col-auto
+                    h5 #{total.toFixed(2)} zł
+                  - allTotal += total
+              h4.border.text-center.pt-2.pb-2.border-info Wydane: #{allTotal.toFixed(2)} zł
+          
+  if added
+    h4.mt-5 Ostanio dodane #{added.item}
+
+    
+      
+      

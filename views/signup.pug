@@ -1,0 +1,36 @@
+extends templete.pug
+
+block content
+  .row.h-100  
+    .col-4.mx-auto.mt-5
+        main.border.border-info.rounded.px-3.shadow.border-form
+            h4.text-center.mb-3.py-2.border-bottom.border-info.font-weight-bold Signup
+            form.login-form(action='/signup', method='POST')            
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#basic-addon1.input-group-text E-Mail
+                    input.form-control(type='email', name='email', placeholder='Enter your e-mail', aria-label='email', aria-describedby='basic-addon1')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#basic-addon1.input-group-text Password
+                    input.form-control(type='password', name='password', placeholder='Enter your password', aria-label='password', aria-describedby='basic-addon1')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#basic-addon1.input-group-text Confirm Password
+                    input.form-control(type='password', name='confirmPassword', placeholder='Confirm your password', aria-label='confirmPassword', aria-describedby='basic-addon1')
+                button.btn.mb-3.btn-success(type='submit') Signup
+
+
+
+        //- main
+        //-     form.login-form(action='/signup', method='POST')
+        //-         .form-control
+        //-             label(for='email') E-Mail
+        //-             input#email(type='email', name='email')
+        //-         .form-control
+        //-             label(for='password') Password
+        //-             input#password(type='password', name='password')
+        //-         .form-control
+        //-             label(for='confirmPassword') Confirm Password
+        //-             input#confirmPassword(type='password', name='confirmPassword')
+        //-         button.btn(type='submit') Signup
