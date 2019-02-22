@@ -7,7 +7,7 @@ const routeSecure = require('../middleware/route_secure');
 router.get('/', routeSecure, controlers.homePage);
 
 router.get('/signup', auth_ctrl.signup_get); 
-router.post('/signup', auth_ctrl.signup_post);
+//router.post('/signup', auth_ctrl.signup_post);
 
 router.get('/login', auth_ctrl.loginGet);
 router.post('/login', auth_ctrl.loginPost);
