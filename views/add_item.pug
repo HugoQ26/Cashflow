@@ -27,8 +27,14 @@ block content
         .input-group-prepend
           .input-group-text Date 
         input.p-0.text-center(type="date", value = new Date().toISOString().substr(0, 10), name="date", placeholder='Type date of purchased', required)
-
-          
+      .form-check.mb-2.mr-sm-2
+        input#inlineFormCheck.form-check-input(type='radio', name="owner", value="Gosia", required, checked)
+        label.form-check-label(for='inlineFormCheck')
+            | Gosia
+      .form-check.mb-2.mr-sm-2
+        input#inlineFormCheck.form-check-input(type='radio', name="owner", value="Marcin", required)
+        label.form-check-label(for='inlineFormCheck')
+            | Marcin          
       .input-group.col-12.mb-2
         .input-group-prepend
           .input-group-text Category  
@@ -37,6 +43,7 @@ block content
             each category in categories
               option(value=category)
                 | #{category}
+        input(type='hidden', name='_csrf', value=csrfToken)
       .col-12         
         input.btn.btn-success.w-100(type="submit")
 
@@ -58,9 +65,9 @@ block content
       form(action="/additem/filter", method="POST")
         h4.text-center Wybierz miesiąc i kategorie...
         label(for="styczen") Styczeń   
-        input(type="radio", value="1", name="month" id="styczen" ,required)
+        input(type="radio", value="1", name="month" id="styczen", required)
         label(for="luty") Luty   
-        input(type="radio", value="2", name="month" id="luty", ,required)
+        input(type="radio", value="2", name="month" id="luty", required)        
         p
           each category in categories
             label(for=category) #{category}   

@@ -6,6 +6,7 @@ const item = new Schema({
     qty: Number,
     price: Number,
     category: String,
+    owner: String,
     date: {
         type: Date,
     }
@@ -28,8 +29,8 @@ const check = () => {
     })
 }
 
-const saveBill = (item, qty, category, date, price) => {
-    Bill.create({ item, qty, category, date, price }, function (err, item) {
+const saveBill = (item, qty, category, date, price, owner) => {
+    Bill.create({ item, qty, category, date, price, owner }, function (err, item) {
         if (err) return handleError(err);
         console.log('Saved', item);
         

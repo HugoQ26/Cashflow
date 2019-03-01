@@ -18,6 +18,7 @@ block content
                     .input-group-prepend
                         span#basic-addon1.input-group-text Confirm Password
                     input.form-control(type='password', name='confirmPassword', placeholder='Confirm your password', aria-label='confirmPassword', aria-describedby='basic-addon1')
+                    input(type='hidden', name='_csrf', value=csrfToken)
                 button.btn.mb-3.btn-success(type='submit') Signup
 
 

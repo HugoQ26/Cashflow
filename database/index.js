@@ -2,22 +2,22 @@ const database = require('./mongoose');
 
 var _ = require('lodash');
 
-const catNames = () => {
-    return new Promise((resolve, reject) => {
-        database.Cat.find({}, {category: 1, _id: 0}, (err, data) => {
-            if (err) {
-                reject(err);
-            } else {
-                const items = new Set();
-                for(let i of data) {
-                    items.add(i.category);
-                }               
-                resolve([...items]);
-                return [...items];                
-            }
-        })
-    });
-}
+// const catNames = () => {
+//     return new Promise((resolve, reject) => {
+//         database.Cat.find({}, {category: 1, _id: 0}, (err, data) => {
+//             if (err) {
+//                 reject(err);
+//             } else {
+//                 const items = new Set();
+//                 for(let i of data) {
+//                     items.add(i.category);
+//                 }               
+//                 resolve([...items]);
+//                 return [...items];                
+//             }
+//         })
+//     });
+// }
 
 const catcat = () => {
     return new Promise((resolve, reject) => {
@@ -71,6 +71,43 @@ const catcat = () => {
         resolve(k);
     })
 }
+
+// const catcat = () => {
+//     return new Promise((resolve, reject) => {
+//         let k = database.Bill.aggregate([
+            
+//             {
+//                 $project: {month: {$month: "$date"},year: {$year: "$date"}, _id: -1, item: 1, date: 1, category: 1, price: 1, qty: 1}
+//             },
+//             // {
+//             //     $match: {category, month}
+//             // },
+//             {
+//                 $group: {
+//                     _id: {month: "$month"},                    
+//                     total: {$sum: "$price"},
+//                     totalQt: {$sum: "$qty"}
+                    
+//                 }                          
+//             },
+//             {
+//                 $group: {
+//                     _id: "$_id.month",
+//                     total: {
+//                         $push: { 
+//                             total:"$category",
+//                             totalQt:"$totalQt"
+//                         }
+//                     }
+//                 }                          
+//             },
+            
+            
+//         ])
+        
+//         resolve(k);
+//     })
+// }
 
 const bill = (cb = () => {}) => {
     return new Promise((resolve, reject) => {        
@@ -149,7 +186,7 @@ const allDataSorted = (bill) => {
                     }
                 };
             };
-        }
+        }  
         resolve(result);
         return result;
 
@@ -168,7 +205,7 @@ const math = (allDataSorted) => {
 
 module.exports = {
     bill,
-    catNames,
+    // catNames,
     monthAndYear,
     allDataSorted,
     math,

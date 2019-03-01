@@ -1,29 +1,113 @@
-//- <!DOCTYPE html>
-//- html(lang="pl")
-//-   head
-//-     meta(charset="UTF-8")
-//-     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-//-     meta(http-equiv="X-UA-Compatible", content="ie=edge")
-//-     link(rel='stylesheet', href='/stylesheets/style.css')
-//-     link(rel="stylesheet" href="/stylesheets/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous")
-//-     //- script(src="/javascripts/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous")
-//-     title= title
-//-   body
-//-     .container
-//-         .row
-//-             .col
-//-                 h1 Categories of month     
-//-                     a.btn.btn-info(href="/additem") Dodaj artykuł
-//-                     if added
-//-                         h2 Ostanio dodane #{added.item}
-//-         .row        
-//-             each item in catNo
-//-             .col-3
-//-                 h3 #{item.category}     
-//-                 a.btn.btn-info(href="/additem") Dodaj artykuł
-                
+extends templete.pug
+
+block content    
+    .row
+        .col.text-center.bg-info.mx-3.my-3.shadow.border.border-dark
+            h2.text-light.font-weight-bold #{month} #{year} - kategoria : #{category}. 
+    .row
+        .col.border.border-dark.ml-3.mr-2
+            .row
+                .col
+                    .row
+                        .col.text-center.bg-info.border-bottom.border-dark
+                            h4.text-light.font-weight-bold Sumy ilości i kosztów w danej kategorii i miesiącu
+                    .row
+                        .col-auto
+                            h5 Posortuj wg:                    
+                        .col                            
+                            form.form-inline(action=path, method="get")
+                                                                
+                                .form-check.mb-2.mr-sm-2
+                                    input#inlineFormCheck.form-check-input(type='radio', name="sortLeft", value="_id", required)
+                                    label.form-check-label(for='inlineFormCheck')
+                                        | Nazwy
+                                .form-check.mb-2.mr-sm-2
+                                    input#inlineFormCheck.form-check-input(type='radio', name="sortLeft", value="totalQt", required)
+                                    label.form-check-label(for='inlineFormCheck')
+                                        | Ilości
+                                .form-check.mb-2.mr-sm-2
+                                    input#inlineFormCheck.form-check-input(type='radio', name="sortLeft", value="total", required)
+                                    label.form-check-label(for='inlineFormCheck')
+                                        | Sumy wydatków
+                                                            
+                                .form-check.mb-2.mr-sm-2 
+                                    input#inlineFormCheck.form-check-input(type='radio', name="incDecLeft", value=1, required)
+                                    label.form-check-label(for='inlineFormCheck')
+                                        | Rosnąco
+                                .form-check.mb-2.mr-sm-2
+                                    input#inlineFormCheck.form-check-input(type='radio', name="incDecLeft", value=-1, required)
+                                    label.form-check-label(for='inlineFormCheck')
+                                        | Malejąco
+                                button.btn.btn-outline-info.mb-2(type='submit') Sort
+
+            .row
+                .col
+                    table.table.mt-2
+                        thead.bg-info
+                            tr
+                                th(scope='col') #
+                                th(scope='col') Nazwa
+                                th.text-center(scope='col') Suma ilośći
+                                th.text-center(scope='col') Suma wydatków
+                        tbody
+                        each item, index in all.items
+                            tr
+                            th(scope='row') #{index+1}
+                                td #{item._id.item}
+                                td.text-center #{item.totalQt} szt.
+                                td.text-center #{item.total.toFixed(2)} zł.                    
 
 
-  
-    
-    
+        .col.border.border-dark.mr-3.ml-2
+            .row
+                .col
+                    .row
+                        .col.text-center.bg-info.border-bottom.border-dark
+                            h4.text-light.font-weight-bold Poszczególne zakupy w danej kategorii i miesiącu
+                    .row
+                        .col-auto
+                            h5 Posortuj wg:                    
+                        .col                            
+                            form.form-inline(action=path, method="get")
+                                                                
+                                .form-check.mb-2.mr-sm-2
+                                    input#inlineFormCheck.form-check-input(type='radio', name="sortRight", value="_id.all", required)
+                                    label.form-check-label(for='inlineFormCheck')
+                                        | Nazwy
+                                .form-check.mb-2.mr-sm-2
+                                    input#inlineFormCheck.form-check-input(type='radio', name="sortRight", value="_id.price", required)
+                                    label.form-check-label(for='inlineFormCheck')
+                                        | Ceny
+                                .form-check.mb-2.mr-sm-2
+                                    input#inlineFormCheck.form-check-input(type='radio', name="sortRight", value="_id.day", required)
+                                    label.form-check-label(for='inlineFormCheck')
+                                        | Dnia zakupu
+                                                            
+                                .form-check.mb-2.mr-sm-2 
+                                    input#inlineFormCheck.form-check-input(type='radio', name="incDecRight", value=1, required)
+                                    label.form-check-label(for='inlineFormCheck')
+                                        | Rosnąco
+                                .form-check.mb-2.mr-sm-2
+                                    input#inlineFormCheck.form-check-input(type='radio', name="incDecRight", value=-1, required)
+                                    label.form-check-label(for='inlineFormCheck')
+                                        | Malejąco
+                                button.btn.btn-outline-info.mb-2(type='submit') Sort
+
+            .row
+                .col
+                    table.table.mt-2
+                        thead.bg-info
+                            tr
+                                th(scope='col') #
+                                th(scope='col') Nazwa
+                                th.text-center(scope='col') Ilość
+                                th.text-center(scope='col') Cena
+                                th.text-center(scope='col') Dzień zakupu
+                        tbody
+                        each item, index in all.all
+                            tr
+                            th(scope='row') #{index+1}
+                                td #{item._id.all}
+                                td.text-center #{item._id.qty} szt.
+                                td.text-center #{item._id.price.toFixed(2)} zł.
+                                td.text-center #{item._id.day} #{month}                    

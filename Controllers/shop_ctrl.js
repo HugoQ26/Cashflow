@@ -1,26 +1,28 @@
 // const mongoose = require('mongoose')
 const database = require('../database/mongoose');
 const mainPage = require('../database/index');
+const catChoose = require('../database/categories');
 
 const homePage = (req, res) => {
 
     const info = (async () => {
 
         try {
-          let categories = await mainPage.catNames();
+          //let categories = await mainPage.catNames();
           let bill = await mainPage.bill();
-          let year = await mainPage.monthAndYear(bill);
+          //let year = await mainPage.monthAndYear(bill);
           let all = await mainPage.allDataSorted(bill);
-          let math = await mainPage.math(all);
+          //let math = await mainPage.math(all);
+          let catcat = await mainPage.catcat();
+          //console.log(catcat[0].total);
+          
 
 
           res.render('index', {
-              //isLogin: req.session.isLogin,
               title: 'Bills',
               added: req.session.added,
               all,
-              mths: mainPage.monthsNames,
-              //csrfToken: req.csrfToken()
+              mths: mainPage.monthsNames
           });
 
         } catch (error) {
@@ -64,7 +66,7 @@ const addItemGet = (req, res) => {
             }
             //let catcatcat = [...catcat[0].categories._id.cat]
             //console.log(catcat[0].items);
-            console.log(dupa);
+            //console.log(dupa);
 
 
 
@@ -96,10 +98,13 @@ const addItemPost = (req, res) => {
         const category = req.body.category;
         const date = req.body.date;
         const price = req.body.price;
+        const owner = req.body.owner;
+        console.log(req.body);
+        
         req.session.added = {
           item, qty, category, date, price, addedDate: new Date().toLocaleDateString()
         };
-        database.saveBill(item, qty, category, date, price);
+        database.saveBill(item, qty, category, date, price, owner);
         req.session.save(err => {
           console.log(err);
           res.redirect('/additem');
@@ -118,10 +123,64 @@ const filterItems = (req, res) => {
 
 }
 
+const category = (req, res) => {
+    
+
+
+    const info = (async () => {
+
+        // let monthNo = req.session.month;
+        // let category = req.session.category;
+
+        try {
+
+            const year = req.params.year;
+            const month = parseInt(req.params.month,10);
+            const category = req.params.category;
+            const incDecLeftSwitch = parseInt(req.query.incDecLeft,10);
+            const incDecRightSwitch = parseInt(req.query.incDecRight,10);
+            const sort = {
+                sortByLeft: req.query.sortLeft || 'total',
+                incDecLeft: incDecLeftSwitch || -1,
+                sortByRight: req.query.sortRight || 'total',
+                incDecRight: incDecRightSwitch || -1
+            }            
+            
+            //let categories = await catChoose.cat(year, month+1, category, sort.sortByLeft, sort.incDecLeft);
+            let categories2 = await catChoose.catAll(year, month+1, category, sort.sortByLeft, sort.incDecLeft, sort.sortByRight, sort.incDecRight);
+            //console.log(categories);
+            
+            console.log(categories2[0]);
+
+            
+            
+
+            res.render('categories', {
+                title: 'Category',
+                path: req.path,
+                year,
+                month: mainPage.monthsNames[month],
+                category,
+                all: categories2[0]
+                
+            });
+            
+        } catch (error) {
+            console.log(error);
+        }
+
+    })();
+
+
+
+    
+}
+
 
 module.exports = {
     homePage,
     addItemGet,
     addItemPost,
-    filterItems
+    filterItems,
+    category
 };

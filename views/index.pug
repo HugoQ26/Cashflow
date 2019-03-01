@@ -11,11 +11,12 @@ block content
             .card-body.pb-1
               each categories, category in months                                
                 - var total = 0;                 
-                each item in categories                      
+                each item in categories 
                   - total += item.price
-                .row
+                .row                                 
                   .col
-                    h5.card-text #{category}: 
+                    a(href="/categories/"+year+"/"+month+"/"+category)
+                      h5.card-text #{category}: 
                   .col-auto
                     h5 #{total.toFixed(2)} zł
                   - allTotal += total

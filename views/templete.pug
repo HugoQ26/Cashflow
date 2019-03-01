@@ -11,39 +11,41 @@ html(lang="pl")
     title= title
   body
     .container-fluid
-    .row
-      .col  
-        nav.navbar.navbar-expand-lg.navbar-light.bg-info.shadow-sm
-          a.navbar-brand(href='/')            
-            h3.text-light.font-weight-bold Cashflow meter  
-              span
-                i.fas.fa-chart-line 
-          button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
-            span.navbar-toggler-icon
-          #navbarSupportedContent.collapse.navbar-collapse
-            ul.navbar-nav.mr-auto
-              li.nav-item.active
+      .row
+        .col  
+          nav.navbar.navbar-expand-lg.navbar-light.bg-info.shadow-sm
+            a.navbar-brand(href='/')            
+              h3.text-light.font-weight-bold Cashflow meter  
+                span
+                  i.fas.fa-chart-line 
+            button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+              span.navbar-toggler-icon
+            #navbarSupportedContent.collapse.navbar-collapse
+              ul.navbar-nav.mr-auto
+                li.nav-item.active
+                if isLogin
+                  a.nav-link.text-light.ml-2(href='/additem')
+                    h5 Dodaj wydatek 
+                    span.sr-only (current)
+                //- li.nav-item
+                //-   h4.text-light.border.rounded.p-2.mx-1 #{new Date().getHours() +' : ' + new Date().getMinutes() }
+                //- li.nav-item.dropdown
+                //-   a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                //-     | Dropdown
+                //-   .dropdown-menu(aria-labelledby='navbarDropdown')
+                //-     a.dropdown-item(href='#') Action
+                //-     a.dropdown-item(href='#') Another action
+                //-     .dropdown-divider
+                //-     a.dropdown-item(href='#') Something else here
+                //- li.nav-item
+                //-   a.nav-link.disabled(href='#', tabindex='-1', aria-disabled='true') Disabled              
+              if !isLogin
+                a(href='/login').text-light.border.rounded.p-2.mx-1 Login
               if isLogin
-                a.nav-link.text-light.ml-2(href='/additem')
-                  h5 Dodaj wydatek 
-                  span.sr-only (current)
-              //- li.nav-item
-              //-   h4.text-light.border.rounded.p-2.mx-1 #{new Date().getHours() +' : ' + new Date().getMinutes() }
-              //- li.nav-item.dropdown
-              //-   a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-              //-     | Dropdown
-              //-   .dropdown-menu(aria-labelledby='navbarDropdown')
-              //-     a.dropdown-item(href='#') Action
-              //-     a.dropdown-item(href='#') Another action
-              //-     .dropdown-divider
-              //-     a.dropdown-item(href='#') Something else here
-              //- li.nav-item
-              //-   a.nav-link.disabled(href='#', tabindex='-1', aria-disabled='true') Disabled              
-            if !isLogin
-              a(href='/login').text-light.border.rounded.p-2.mx-1 Login
-            if isLogin
-              a(href='/logout').text-light.border.rounded.p-2.mx-1 Logout
-            if !isLogin
-              a(href='/signup', tabindex='-1').text-light.border.rounded.p-2.mx-4 Signup
-    block content
+                form(action="/logout", method="post")
+                  input(type='hidden', name='_csrf', value=csrfToken)
+                  button(type="submit").btn.btn-light.p-2.mx-1 Logout
+              if !isLogin
+                a(href='/signup', tabindex='-1').text-light.border.rounded.p-2.mx-4 Signup
+      block content
     
