@@ -9,18 +9,18 @@ const csrf = require('csurf');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const flash = require('connect-flash')
-const credentials = require('./credentials.js');
+// const credentials = require('./credentials.js');
 
 
-// const sessionStoreUri = process.env.SESION_STORE_URI;
-// const sessionCollection = process.env.SESSION_STORE_COLLECTION;
-// const sessionSecret = process.env.SESSION_SECRET;
-// const mongoDbUri = process.env.MONGO_URI;
+const sessionStoreUri = process.env.SESION_STORE_URI;
+const sessionCollection = process.env.SESSION_STORE_COLLECTION;
+const sessionSecret = process.env.SESSION_SECRET;
+const mongoDbUri = process.env.MONGO_URI;
 
-const sessionStoreUri = process.env.SESION_STORE_URI || credentials.SESION_STORE_URI ;
-const sessionCollection = process.env.SESSION_STORE_COLLECTION || credentials.SESSION_STORE_COLLECTION;
-const sessionSecret = process.env.SESSION_SECRET || credentials.SESSION_SECRET;
-const mongoDbUri = process.env.MONGO_URI || credentials.MONGO_URI;
+// const sessionStoreUri = process.env.SESION_STORE_URI || credentials.SESION_STORE_URI ;
+// const sessionCollection = process.env.SESSION_STORE_COLLECTION || credentials.SESSION_STORE_COLLECTION;
+// const sessionSecret = process.env.SESSION_SECRET || credentials.SESSION_SECRET;
+// const mongoDbUri = process.env.MONGO_URI || credentials.MONGO_URI;
 
 const csrfProtection = csrf();
  
