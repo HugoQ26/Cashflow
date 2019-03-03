@@ -19,16 +19,6 @@ const category = new Schema({
 let Bill = mongoose.model('Bill', item);
 let Cat = mongoose.model('Category', category);
 
-const check = () => {
-    Bill.find({"date": {"$gte": new Date(2019, 1, 1), "$lt": new Date(2019, 2, 1)}, category: "Spożywcze"}, (err, doc) => {
-        let count = 0;
-        doc.forEach((item) => {
-            count += item.price;
-        })
-        return doc;
-    })
-}
-
 const saveBill = (item, qty, category, date, price, owner) => {
     Bill.create({ item, qty, category, date, price, owner }, function (err, item) {
         if (err) return handleError(err);
@@ -45,90 +35,90 @@ const saveBill = (item, qty, category, date, price, owner) => {
     });    
 }
 
-const itemsNames = () => {
-    return new Promise((resolve, reject) => {
-        Bill.find({}, {item: 1, _id: 0}, (err, data) => {
-            if (err) {
-                reject(err);
-            } else {
-                const items = new Set();
-                for(let i of data) {
-                    items.add(i.item);
-                }                
-                resolve([...items]);                
-            }
-        })
-    });
-}
+// const itemsNames = () => {
+//     return new Promise((resolve, reject) => {
+//         Bill.find({}, {item: 1, _id: 0}, (err, data) => {
+//             if (err) {
+//                 reject(err);
+//             } else {
+//                 const items = new Set();
+//                 for(let i of data) {
+//                     items.add(i.item);
+//                 }                
+//                 resolve([...items]);                
+//             }
+//         })
+//     });
+// }
 
-const catNames = () => {
-    return new Promise((resolve, reject) => {
-        Cat.find({}, {category: 1, _id: 0}, (err, data) => {
-            if (err) {
-                reject(err);
-            } else {
-                const items = new Set();
-                for(let i of data) {
-                    items.add(i.category);
-                }  
-                resolve([...items]);                
-            }
-        })
-    });
-}
+// const catNames = () => {
+//     return new Promise((resolve, reject) => {
+//         Cat.find({}, {category: 1, _id: 0}, (err, data) => {
+//             if (err) {
+//                 reject(err);
+//             } else {
+//                 const items = new Set();
+//                 for(let i of data) {
+//                     items.add(i.category);
+//                 }  
+//                 resolve([...items]);                
+//             }
+//         })
+//     });
+// }
 
-const all = () => {
-    return new Promise((resolve, reject) => {
-        Bill.find({}).sort("-_id").limit(4).exec((err, data) => {
-            if (err) {
-                reject(err)
-            } else {
-                resolve(data);
-            }
-        })
+// const all = () => {
+//     return new Promise((resolve, reject) => {
+//         Bill.find({}).sort("-_id").limit(4).exec((err, data) => {
+//             if (err) {
+//                 reject(err)
+//             } else {
+//                 resolve(data);
+//             }
+//         })
         
-    })
-}
+//     })
+// }
 
-const getMonth = (month, category) => {
-    return new Promise((resolve, reject) => {
+// const getMonth = (month, category) => {
+//     return new Promise((resolve, reject) => {
 
-        Bill.find({category: category})
-        .where('date').gt(`new Date(2019, ${month}), 1`).lt(`new Date(2019, ${month}), 1`)
-        .exec((err, data) => {
-            if (err) {
-                reject(err)
-            } else {                
-                resolve(data);
-                return data;
-            }
-        })
+//         Bill.find({category: category})
+//         .where('date').gt(`new Date(2019, ${month}), 1`).lt(`new Date(2019, ${month}), 1`)
+//         .exec((err, data) => {
+//             if (err) {
+//                 reject(err)
+//             } else {                
+//                 resolve(data);
+//                 return data;
+//             }
+//         })
         
-    })
-}
+//     })
+// }
 
-const calc = (getMonth) => {
-    return new Promise((resolve, reject) => {
-        let sum = 0;
-        for(let i of getMonth) {
-            sum += (i.qty * i.price);            
-        }
-        console.log(sum);
+// const calc = (getMonth) => {
+//     return new Promise((resolve, reject) => {
+//         let sum = 0;
+//         for(let i of getMonth) {
+//             sum += (i.qty * i.price);            
+//         }
+//         console.log(sum);
         
-        resolve(sum);
-    });
-}
+//         resolve(sum);
+//     });
+// }
 
 
 
 module.exports = {
-    saveBill,
-    itemsNames,
-    catNames,
-    all,
-    getMonth,
-    calc,
     Bill,
     Cat,
-    check
+    saveBill
+    // itemsNames,
+    // catNames,
+    // all,
+    // getMonth,
+    // calc,
+    // check
 }

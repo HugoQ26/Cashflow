@@ -3,83 +3,73 @@ extends templete.pug
 block content
     
       
-  form.border.rounded.border-info.border-form.m-2.p-2.shadow-sm(action="/additem", method="POST")
-    .row.mb-2                
-      .input-group.col-12.mb-2
-        .input-group-prepend
-          .input-group-text Item name   
-        input.form-control(type="text", list='itemsNames' , name="item", id="items", placeholder='Type item name here', required)
-        datalist#itemsNames
-            each item in itemsNames
-              option(value=item._id.item)
-                | #{item._id.item}                    
-          
-      .input-group.col-12.mb-2      
-        .input-group-prepend
-          .input-group-text Qty 
-        input.p-0.text-center(type="number", min='1', value='1', name="qty", placeholder='Quantity', required)
-      
-      .input-group.col-12.mb-2
-        .input-group-prepend
-          .input-group-text Price           
-        input.p-0.text-center(type="number", min='0', step=".01", name="price", placeholder='Type price here', required)
-      .input-group.col-12.mb-2       
-        .input-group-prepend
-          .input-group-text Date 
-        input.p-0.text-center(type="date", value = new Date().toISOString().substr(0, 10), name="date", placeholder='Type date of purchased', required)
-      .form-check.mb-2.mr-sm-2
-        input#inlineFormCheck.form-check-input(type='radio', name="owner", value="Gosia", required, checked)
-        label.form-check-label(for='inlineFormCheck')
-            | Gosia
-      .form-check.mb-2.mr-sm-2
-        input#inlineFormCheck.form-check-input(type='radio', name="owner", value="Marcin", required)
-        label.form-check-label(for='inlineFormCheck')
-            | Marcin          
-      .input-group.col-12.mb-2
-        .input-group-prepend
-          .input-group-text Category  
-        input.p-0.text-center(name="category", list="categories", placeholder='Type category name', required)
-        datalist#categories
-            each category in categories
-              option(value=category)
-                | #{category}
-        input(type='hidden', name='_csrf', value=csrfToken)
-      .col-12         
-        input.btn.btn-success.w-100(type="submit")
-
-  if added
-      div
-          h4 Ostanio dodane #{added.addedDate}: #{added.item} - ilość: #{added.qty} cena: #{added.price}zł, kupione: #{added.date}. Kategoria - #{added.category}
-  
-  .row.p-3
-    .col-12.col-md-6.border.border-info.rounded.m-2      
-      each data, index in all
-        .row.p-1
-          p #{index+1} #{data.item}   
-          p ilość: #{data.qty} 
-          p.p-0 cena: #{data.price}zł, 
-          p.p-0 kupione: #{data.date.toLocaleDateString()}. 
-          p.p-0 Kategoria - #{data.category}
-        hr.border.border-info.mt-0 
-    .col-12.col-md-6.border-info.rounded.m-2  
-      form(action="/additem/filter", method="POST")
-        h4.text-center Wybierz miesiąc i kategorie...
-        label(for="styczen") Styczeń   
-        input(type="radio", value="1", name="month" id="styczen", required)
-        label(for="luty") Luty   
-        input(type="radio", value="2", name="month" id="luty", required)        
-        p
-          each category in categories
-            label(for=category) #{category}   
-            input(type="radio", value=category, name="category" id=category ,required)
-        input.btn.btn-success(type="submit")
+  .row
+    .col.border.rounded.border-info.border-form.m-2.p-2.shadow-sm             
+      form(action="/additem", method="POST")
+        .input-group.col-12.mb-2
+          .input-group-prepend
+            .input-group-text Item name   
+          input.form-control(type="text", list='itemsNames' , name="item", id="items", placeholder='Type item name here', required)
+          datalist#itemsNames
+              each item in itemsNames
+                option(value=item._id)
+                  | #{item._id}                    
+            
+        .input-group.col-12.mb-2      
+          .input-group-prepend
+            .input-group-text Qty 
+          input.p-0.text-center(type="number", min='1', value='1', name="qty", placeholder='Quantity', required)
         
+        .input-group.col-12.mb-2
+          .input-group-prepend
+            .input-group-text Price           
+          input.p-0.text-center(type="number", min='0', step=".01", name="price", placeholder='Type price here', required)
+        .input-group.col-12.mb-2       
+          .input-group-prepend
+            .input-group-text Date 
+          input.p-0.text-center(type="date", value = new Date().toISOString().substr(0, 10), name="date", placeholder='Type date of purchased', required)
+        .form-check.mb-2.mr-sm-2
+          input#inlineFormCheck.form-check-input(type='radio', name="owner", value="Gosia", required, checked)
+          label.form-check-label(for='inlineFormCheck')
+              | Gosia
+        .form-check.mb-2.mr-sm-2
+          input#inlineFormCheck.form-check-input(type='radio', name="owner", value="Marcin", required)
+          label.form-check-label(for='inlineFormCheck')
+              | Marcin          
+        .input-group.col-12.mb-2
+          .input-group-prepend
+            .input-group-text Category  
+          input.p-0.text-center(name="category", list="categories", placeholder='Type category name', required)
+          datalist#categories
+              each category in categories
+                option(value=category._id)
+                  | #{category._id}
+          input(type='hidden', name='_csrf', value=csrfToken)
+        .col-12         
+          input.btn.btn-success.w-100(type="submit")
 
-      h4 W miesiącu nr #{monthNo} - wydano na #{category}: #{sum.toFixed(2)} zł
-      div.scroll
-        each data, index in month
-          p #{index+1} #{data.item} - ilość: #{data.qty} cena: #{data.price}zł, kupione: #{data.date.toLocaleDateString()}. Kategoria - #{data.category} 
-                
+    //- .col.border.border-info.rounded.m-2 
+
+    .col.border.rounded.border-info.border-form.m-2.p-2.shadow-sm
+      h4.text-center Lista 5 ostatnio dodanych wydatków
+      table.table.mt-2
+          thead.bg-info
+              tr
+                  th(scope='col') #
+                  th(scope='col') Nazwa
+                  th.text-center(scope='col') Ilość
+                  th.text-center(scope='col') Cena
+                  th.text-center(scope='col') Dzień zakupu
+          tbody
+          each data, index in lastfiveAdded
+              tr
+              th(scope='row') #{index+1}
+                  td #{data._id.item}
+                  td.text-center #{data._id.qty} szt.
+                  td.text-center #{data._id.price.toFixed(2)} zł.
+                  td.text-center #{data._id.day}  #{month[data._id.month-1]}       
+
+     
             
 
       

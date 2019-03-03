@@ -1,6 +1,6 @@
 const database = require('./mongoose');
 
-var _ = require('lodash');
+
 
 // const catNames = () => {
 //     return new Promise((resolve, reject) => {
@@ -19,59 +19,6 @@ var _ = require('lodash');
 //     });
 // }
 
-const catcat = () => {
-    return new Promise((resolve, reject) => {
-        let k = database.Bill.aggregate([
-            
-            {
-                $project: {month: {$month: "$date"},year: {$year: "$date"}, _id: -1, item: 1, date: 1, category: 1, price: 1, qty: 1}
-            },
-            {   $facet: 
-                {
-                    items: [
-                        {
-                            $group: {
-                                _id: { item: "$item"}
-                            }                            
-                        },
-                        {
-                            $sort: {"_id.item": 1}
-                        }
-                    ],
-                    categories: [
-                        {
-                            $group: {
-                                _id: { cat: "$category"}
-                            }                            
-                        },
-                        {
-                            $sort: {"_id.cat": 1}
-                        }
-                    ]
-
-                        
-                }     
-            },
-            // {
-            //     $group: {
-            //         _id: {year: "$category"},                    
-            //         total: {$sum: "$price"},
-            //         totalQt: {$sum: "$qty"},
-            //         avgPrice: {$avg: "$price"}                    
-            //     }
-            // },            
-            {
-                $sort: {total: -1}
-            },
-            {
-                $limit: 100
-            }
-            
-        ])
-        resolve(k);
-    })
-}
-
 // const catcat = () => {
 //     return new Promise((resolve, reject) => {
 //         let k = database.Bill.aggregate([
@@ -79,28 +26,86 @@ const catcat = () => {
 //             {
 //                 $project: {month: {$month: "$date"},year: {$year: "$date"}, _id: -1, item: 1, date: 1, category: 1, price: 1, qty: 1}
 //             },
+//             {   $facet: 
+//                 {
+//                     items: [
+//                         {
+//                             $group: {
+//                                 _id: { item: "$item"}
+//                             }                            
+//                         },
+//                         {
+//                             $sort: {"_id.item": 1}
+//                         }
+//                     ],
+//                     categories: [
+//                         {
+//                             $group: {
+//                                 _id: { cat: "$category"}
+//                             }                            
+//                         },
+//                         {
+//                             $sort: {"_id.cat": 1}
+//                         }
+//                     ]
+
+                        
+//                 }     
+//             },
+//             // {
+//             //     $group: {
+//             //         _id: {year: "$category"},                    
+//             //         total: {$sum: "$price"},
+//             //         totalQt: {$sum: "$qty"},
+//             //         avgPrice: {$avg: "$price"}                    
+//             //     }
+//             // },            
+//             {
+//                 $sort: {total: -1}
+//             },
+//             {
+//                 $limit: 100
+//             }
+            
+//         ])
+//         resolve(k);
+//     })
+// }
+
+// const catcat = () => {
+//     return new Promise((resolve, reject) => {
+//         let k = database.Bill.aggregate([
+            
+//             {
+//                 $project: {month: {$month: "$date"},year: {$year: "$date"}, _id: -1, item: 1, date: 1, category: 1, price: 1, qty: 1, owner: 1}
+//             },
 //             // {
 //             //     $match: {category, month}
 //             // },
 //             {
 //                 $group: {
-//                     _id: {month: "$month"},                    
-//                     total: {$sum: "$price"},
-//                     totalQt: {$sum: "$qty"}
+//                     _id: {month: "$month", category: "$category", year: "$year"},                    
+//                     total: {$sum: "$price"}
+//                     // totalQt: {$sum: "$qty"}
                     
 //                 }                          
 //             },
 //             {
+//                 $sort: {"_id.month": 1, "total": -1} 
+//             },
+//             {
 //                 $group: {
-//                     _id: "$_id.month",
+//                     _id: {month: "$_id.month", year: "$_id.year"},
 //                     total: {
 //                         $push: { 
-//                             total:"$category",
-//                             totalQt:"$totalQt"
+//                             category:"$_id.category",                            
+//                             totalSum:"$total"
+//                             // totalQt:"$totalQt"
 //                         }
 //                     }
 //                 }                          
 //             },
+            
             
             
 //         ])
@@ -109,94 +114,136 @@ const catcat = () => {
 //     })
 // }
 
-const bill = (cb = () => {}) => {
-    return new Promise((resolve, reject) => {        
-        database.Bill.find({}, {_id:0, __v:0}, (err, data) => {
-            if (err) {
-                reject(err);
-                cb(err);
-            } else {                
-                resolve(data);
-                cb(null, data);                        
-                return data;
-            }
-        })
-    })
-}
+// const addItemPage = () => {
+//     return new Promise((resolve, reject) => {
+//         let k = database.Bill.aggregate([
+            
+//             {
+//                 $project: {month: {$month: "$date"},year: {$year: "$date"}, _id: -1, item: 1, date: 1, category: 1, price: 1, qty: 1, owner: 1}
+//             },
+//             // {
+//             //     $match: {category, month}
+//             // },
+//             {
+//                 $group: {
+//                     _id: {month: "$month", category: "$category", year: "$year"},                    
+//                     total: {$sum: "$price"}
+//                     // totalQt: {$sum: "$qty"}
+                    
+//                 }                          
+//             },
+//             {
+//                 $sort: {"_id.month": 1, "total": -1} 
+//             },
+//             {
+//                 $group: {
+//                     _id: {month: "$_id.month", year: "$_id.year"},
+//                     total: {
+//                         $push: { 
+//                             category:"$_id.category",                            
+//                             totalSum:"$total"
+//                             // totalQt:"$totalQt"
+//                         }
+//                     }
+//                 }                          
+//             },
+            
+            
+            
+//         ])
+        
+//         resolve(k);
+//     })
+// }
 
-const monthAndYear = (bill, cb = () => {}) => {
+// const bill = (cb = () => {}) => {
+//     return new Promise((resolve, reject) => {        
+//         database.Bill.find({}, {_id:0, __v:0}, (err, data) => {
+//             if (err) {
+//                 reject(err);
+//                 cb(err);
+//             } else {                
+//                 resolve(data);
+//                 cb(null, data);                        
+//                 return data;
+//             }
+//         })
+//     })
+// }
+
+// const monthAndYear = (bill, cb = () => {}) => {
     
     
-    const data = [];
-    return new Promise((resolve, reject) => {
-        for(let i of bill) {            
-            // data.push({[i.date.getMonth()]: {}, year: i.date.getFullYear()})
-            data.push({month: i.date.getMonth(), year: i.date.getFullYear()})    
-        }        
-        const dataUniqe = _.uniqWith(data, _.isEqual);
-        resolve(dataUniqe);
-        return dataUniqe;
-    })    
-}
+//     const data = [];
+//     return new Promise((resolve, reject) => {
+//         for(let i of bill) {            
+//             // data.push({[i.date.getMonth()]: {}, year: i.date.getFullYear()})
+//             data.push({month: i.date.getMonth(), year: i.date.getFullYear()})    
+//         }        
+//         const dataUniqe = _.uniqWith(data, _.isEqual);
+//         resolve(dataUniqe);
+//         return dataUniqe;
+//     })    
+// }
 
 const monthsNames = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
 
-const allDataSorted = (bill) => {    
-    const result = {};
-    return new Promise((resolve, reject) => {
+// const allDataSorted = (bill) => {    
+//     const result = {};
+//     return new Promise((resolve, reject) => {
 
-        for(let item of bill) {           
-            let month = item.date.getMonth();
-            let year = item.date.getFullYear();
-            let category = item.category;
-            if(!result.hasOwnProperty(year)) {
-                result[year] = {};
+//         for(let item of bill) {           
+//             let month = item.date.getMonth();
+//             let year = item.date.getFullYear();
+//             let category = item.category;
+//             if(!result.hasOwnProperty(year)) {
+//                 result[year] = {};
     
-                if(!result[year].hasOwnProperty(month)) {
-                    result[year][month] = {};
-                    if (!result[year][month].hasOwnProperty(category)) {
-                        result[year][month][category] = [];
-                        result[year][month][category].push(item);
-                    } else {
-                        result[year][month][category].push(item);
-                    }
-                } else {
-                    if (!result[year][month].hasOwnProperty(category)) {
-                        result[year][month][category] = [];
-                        result[year][month][category].push(item);
-                    } else {
-                        result[year][month][category].push(item);
-                    }
-                };
-            } else {
-                if(!result[year].hasOwnProperty(month)) {
-                    result[year][month] = {};
-                    if (!result[year][month].hasOwnProperty(category)) {
-                        result[year][month][category] = [];
-                        result[year][month][category].push(item);
-                    } else {
-                        result[year][month][category].push(item);
-                    }
-                } else {
-                    if (!result[year][month].hasOwnProperty(category)) {
-                        result[year][month][category] = [];
-                        result[year][month][category].push(item);
-                    } else {
-                        result[year][month][category].push(item);
-                    }
-                };
-            };
-        }  
-        resolve(result);
-        return result;
+//                 if(!result[year].hasOwnProperty(month)) {
+//                     result[year][month] = {};
+//                     if (!result[year][month].hasOwnProperty(category)) {
+//                         result[year][month][category] = [];
+//                         result[year][month][category].push(item);
+//                     } else {
+//                         result[year][month][category].push(item);
+//                     }
+//                 } else {
+//                     if (!result[year][month].hasOwnProperty(category)) {
+//                         result[year][month][category] = [];
+//                         result[year][month][category].push(item);
+//                     } else {
+//                         result[year][month][category].push(item);
+//                     }
+//                 };
+//             } else {
+//                 if(!result[year].hasOwnProperty(month)) {
+//                     result[year][month] = {};
+//                     if (!result[year][month].hasOwnProperty(category)) {
+//                         result[year][month][category] = [];
+//                         result[year][month][category].push(item);
+//                     } else {
+//                         result[year][month][category].push(item);
+//                     }
+//                 } else {
+//                     if (!result[year][month].hasOwnProperty(category)) {
+//                         result[year][month][category] = [];
+//                         result[year][month][category].push(item);
+//                     } else {
+//                         result[year][month][category].push(item);
+//                     }
+//                 };
+//             };
+//         }  
+//         resolve(result);
+//         return result;
 
-    })
-}
+//     })
+// }
 
-const math = (allDataSorted) => {
-    let m = allDataSorted;
-    // console.log(allDataSorted);
-}
+// const math = (allDataSorted) => {
+//     let m = allDataSorted;
+//     // console.log(allDataSorted);
+// }
 
 
 
@@ -204,11 +251,11 @@ const math = (allDataSorted) => {
 
 
 module.exports = {
-    bill,
+    // bill,
     // catNames,
-    monthAndYear,
-    allDataSorted,
-    math,
-    monthsNames,
-    catcat
+    // monthAndYear,
+    // allDataSorted,
+    // math,
+    monthsNames
+    
 }
