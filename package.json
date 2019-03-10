@@ -33,5 +33,9 @@
   },
   "engines": {
     "node": "10.15.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "supertest": "^4.0.0"
   }
 }

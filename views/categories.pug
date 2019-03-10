@@ -3,7 +3,7 @@ extends templete.pug
 block content    
     .row
         .col.text-center.bg-info.mx-3.my-3.shadow.border.border-dark
-            h2.text-light.font-weight-bold #{month} #{year} - kategoria : #{category}. 
+            h2.text-light.font-weight-bold #{month} #{year} - kategoria : #{category}.  
     .row
         .col.border.border-dark.ml-3.mr-2
             .row
@@ -12,47 +12,36 @@ block content
                         .col.text-center.bg-info.border-bottom.border-dark
                             h4.text-light.font-weight-bold Sumy ilości i kosztów w danej kategorii i miesiącu
                     .row
-                        .col-auto
-                            h5 Posortuj wg:                    
-                        .col                            
-                            form.form-inline(action=path, method="get")
-                                                                
-                                .form-check.mb-2.mr-sm-2
-                                    input#inlineFormCheck.form-check-input(type='radio', name="sortLeft", value="_id", required)
-                                    label.form-check-label(for='inlineFormCheck')
-                                        | Nazwy
-                                .form-check.mb-2.mr-sm-2
-                                    input#inlineFormCheck.form-check-input(type='radio', name="sortLeft", value="totalQt", required)
-                                    label.form-check-label(for='inlineFormCheck')
-                                        | Ilości
-                                .form-check.mb-2.mr-sm-2
-                                    input#inlineFormCheck.form-check-input(type='radio', name="sortLeft", value="total", required)
-                                    label.form-check-label(for='inlineFormCheck')
-                                        | Sumy wydatków
-                                                            
-                                .form-check.mb-2.mr-sm-2 
-                                    input#inlineFormCheck.form-check-input(type='radio', name="incDecLeft", value=1, required)
-                                    label.form-check-label(for='inlineFormCheck')
-                                        | Rosnąco
-                                .form-check.mb-2.mr-sm-2
-                                    input#inlineFormCheck.form-check-input(type='radio', name="incDecLeft", value=-1, required)
-                                    label.form-check-label(for='inlineFormCheck')
-                                        | Malejąco
-                                button.btn.btn-outline-info.mb-2(type='submit') Sort
+                        .col
+                            h5.text-center.my-2 Aby posortować kliknij na wybraną nazwę kolumny.
 
             .row
                 .col
                     table.table.mt-2
                         thead.bg-info
                             tr
-                                th(scope='col') #
-                                th(scope='col') Nazwa
-                                th.text-center(scope='col') Suma ilośći
-                                th.text-center(scope='col') Suma wydatków
+                                th(scope='col')
+                                    button(type="submit", disabled).btn.btn-info.btn-block #
+                                form(action=path, method="get")
+                                    th.text-center(scope='col')                                        
+                                        input(type='hidden', name="sortLeft", value="_id")
+                                        input(type='hidden', name="incDecLeft", value=1)
+                                        button(type="submit").btn.btn-info.btn-block Nazwa  
+                                form(action=path, method="get")
+                                    th.text-center(scope='col')                                        
+                                        input(type='hidden', name="sortLeft", value="totalQt")
+                                        input(type='hidden', name="incDecLeft", value=-1)
+                                        button(type="submit").btn.btn-info.btn-block Suma ilośći                                
+                                form(action=path, method="get")
+                                    th.text-center(scope='col')                                        
+                                        input(type='hidden', name="sortLeft", value="total")
+                                        input(type='hidden', name="incDecLeft", value=-1)
+                                        button(type="submit").btn.btn-info.btn-block Suma wydatków           
+                                //- th.text-center(scope='col') Suma wydatków
                         tbody
                         each item, index in all.items
                             tr
-                            th(scope='row') #{index+1}
+                            th.text-center(scope='row') #{index+1}
                                 td #{item._id.item}
                                 td.text-center #{item.totalQt} szt.
                                 td.text-center #{item.total.toFixed(2)} zł.                    
@@ -65,48 +54,38 @@ block content
                         .col.text-center.bg-info.border-bottom.border-dark
                             h4.text-light.font-weight-bold Poszczególne zakupy w danej kategorii i miesiącu
                     .row
-                        .col-auto
-                            h5 Posortuj wg:                    
-                        .col                            
-                            form.form-inline(action=path, method="get")
-                                                                
-                                .form-check.mb-2.mr-sm-2
-                                    input#inlineFormCheck.form-check-input(type='radio', name="sortRight", value="_id.all", required)
-                                    label.form-check-label(for='inlineFormCheck')
-                                        | Nazwy
-                                .form-check.mb-2.mr-sm-2
-                                    input#inlineFormCheck.form-check-input(type='radio', name="sortRight", value="_id.price", required)
-                                    label.form-check-label(for='inlineFormCheck')
-                                        | Ceny
-                                .form-check.mb-2.mr-sm-2
-                                    input#inlineFormCheck.form-check-input(type='radio', name="sortRight", value="_id.day", required)
-                                    label.form-check-label(for='inlineFormCheck')
-                                        | Dnia zakupu
-                                                            
-                                .form-check.mb-2.mr-sm-2 
-                                    input#inlineFormCheck.form-check-input(type='radio', name="incDecRight", value=1, required)
-                                    label.form-check-label(for='inlineFormCheck')
-                                        | Rosnąco
-                                .form-check.mb-2.mr-sm-2
-                                    input#inlineFormCheck.form-check-input(type='radio', name="incDecRight", value=-1, required)
-                                    label.form-check-label(for='inlineFormCheck')
-                                        | Malejąco
-                                button.btn.btn-outline-info.mb-2(type='submit') Sort
+                        .col
+                            h5.text-center.my-2 Aby posortować kliknij na wybraną nazwę kolumny.
 
             .row
                 .col
-                    table.table.mt-2
+                    table.table
                         thead.bg-info
-                            tr
-                                th(scope='col') #
-                                th(scope='col') Nazwa
-                                th.text-center(scope='col') Ilość
-                                th.text-center(scope='col') Cena
-                                th.text-center(scope='col') Dzień zakupu
+                            tr                            
+                                th(scope='col')
+                                    button(type="submit", disabled).btn.btn-info.btn-block #                                
+                                form(action=path, method="get")
+                                    th.text-center(scope='col')                                        
+                                        input(type='hidden', name="sortRight", value="_id.all")
+                                        input(type='hidden', name="incDecRight", value=1)
+                                        button(type="submit").btn.btn-info.btn-block Nazwa  
+                                th.text-center(scope='col')
+                                    button(type="submit", disabled).btn.btn-info.btn-block Ilość
+                                form(action=path, method="get")
+                                    th.text-center(scope='col')                                        
+                                        input(type='hidden', name="sortRight", value="_id.price")
+                                        input(type='hidden', name="incDecRight", value=-1)
+                                        button(type="submit").btn.btn-info.btn-block Cena  
+                                form(action=path, method="get")
+                                    th.text-center(scope='col')                                        
+                                        input(type='hidden', name="sortRight", value="_id.day")
+                                        input(type='hidden', name="incDecRight", value=incSwitch)
+                                        button(type="submit").btn.btn-info.btn-block Dzień zakupu                             
+                                
                         tbody
                         each item, index in all.all
                             tr
-                            th(scope='row') #{index+1}
+                            th.text-center(scope='row') #{index+1}
                                 td #{item._id.all}
                                 td.text-center #{item._id.qty} szt.
                                 td.text-center #{item._id.price.toFixed(2)} zł.

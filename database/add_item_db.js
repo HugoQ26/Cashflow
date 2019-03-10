@@ -1,9 +1,12 @@
 const database = require('./mongoose');
 
-module.exports = () => {
+module.exports = (userId) => {
     return new Promise((resolve, reject) => {
         let itemsDb = database.Bill.aggregate([
             
+            {
+                $match: {createdBy: userId}
+            },
             {
                 $project: {month: {$month: "$date"},year: {$year: "$date"}, day: {$dayOfMonth: "$date"}, item: 1, date: 1, category: 1, price: 1, qty: 1, owner: 1}
             },

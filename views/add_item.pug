@@ -51,7 +51,14 @@ block content
     //- .col.border.border-info.rounded.m-2 
 
     .col.border.rounded.border-info.border-form.m-2.p-2.shadow-sm
-      h4.text-center Lista 5 ostatnio dodanych wydatków
+      .row
+        .col-8
+          h4.text-center Lista 5 ostatnio dodanych wydatków
+        .col-1
+          form(action="/additem", method="get")
+            input(type='hidden', name="enableDelete", value=1)
+            button(type="submit").btn.btn-danger.btn-sm Enable delete
+      .row
       table.table.mt-2
           thead.bg-info
               tr
@@ -60,14 +67,25 @@ block content
                   th.text-center(scope='col') Ilość
                   th.text-center(scope='col') Cena
                   th.text-center(scope='col') Dzień zakupu
+                  th.text-center(scope='col') Kategoria
+                  if enableDelete
+                    th.text-center(scope='col') Usuń
           tbody
           each data, index in lastfiveAdded
+            form(action="/deleteItem", method="POST")
               tr
               th(scope='row') #{index+1}
                   td #{data._id.item}
                   td.text-center #{data._id.qty} szt.
                   td.text-center #{data._id.price.toFixed(2)} zł.
-                  td.text-center #{data._id.day}  #{month[data._id.month-1]}       
+                  td.text-center #{data._id.day}  #{month[data._id.month-1]}
+                  td.text-center #{data._id.category}
+                  if enableDelete
+                    td.text-center
+                      button(type="submit").btn.btn-danger.btn-sm X   
+                  input(type='hidden', name='id', value=data._id.id)
+                  input(type='hidden', name='_csrf', value=csrfToken)
+
 
      
             

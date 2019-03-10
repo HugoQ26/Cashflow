@@ -1,10 +1,13 @@
 const database = require('./mongoose');
 
 
-const catAll = (year, month, category, sortByLeft, incDecLeft, sortByRight, incDecRight, cb = () => {}) => {
+const catAll = (year, month, category, sortByLeft, incDecLeft, sortByRight, incDecRight, userId, cb = () => {}) => {
     return new Promise((resolve, reject) => {
         let k = database.Bill.aggregate([
             
+            {
+                $match: {createdBy: userId}
+            },
             {
                 $project: {month: {$month: "$date"},year: {$year: "$date"}, _id: -1, item: 1, date: 1, category: 1, price: 1, qty: 1}
             },
