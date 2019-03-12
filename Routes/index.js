@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const controlers = require('../Controllers/shop_ctrl');
+const controlers = require('../Controllers/main_ctrl');
 const auth_ctrl = require('../Controllers/auth_ctrl');
 const routeSecure = require('../middleware/route_secure');
 
