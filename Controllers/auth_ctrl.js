@@ -3,7 +3,6 @@ const auth = require('../database/usersDb');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
-const credentials = require('../credentials.js');
 const crypto = require('crypto');
 
 const transporter = nodemailer.createTransport(sendgridTransport({

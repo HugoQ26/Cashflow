@@ -8,8 +8,7 @@ const helmet = require('helmet');
 const csrf = require('csurf');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-const flash = require('connect-flash')
-const credentials = require('./credentials.js');
+const flash = require('connect-flash');
 const auth = require('./database/usersDb');
 const env = require('dotenv').config();
 
