@@ -1,17 +1,16 @@
-const http = require('http');
-const express = require('express');
+const http = require("http");
+const express = require("express");
 const app = express();
-const mongoose = require('mongoose');
-const path = require('path');
-const compression = require('compression');
-const helmet = require('helmet');
-const csrf = require('csurf');
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
-const flash = require('connect-flash');
-const auth = require('./database/usersDb');
-const env = require('dotenv').config();
-
+const mongoose = require("mongoose");
+const path = require("path");
+const compression = require("compression");
+const helmet = require("helmet");
+const csrf = require("csurf");
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
+const flash = require("connect-flash");
+const auth = require("./database/usersDb");
+const env = require("dotenv").config();
 
 const sessionStoreUri = process.env.SESION_STORE_URI;
 const sessionCollection = process.env.SESSION_STORE_COLLECTION;
@@ -19,80 +18,77 @@ const sessionSecret = process.env.SESSION_SECRET;
 const mongoDbUri = process.env.MONGO_URI;
 
 const csrfProtection = csrf();
- 
-var store = new MongoDBStore({
-    uri: sessionStoreUri,
-    collection: sessionCollection
-  });
 
-store.on('error', function(error) {
-console.log(error);
+var store = new MongoDBStore({
+  uri: sessionStoreUri,
+  collection: sessionCollection
 });
 
+store.on("error", function(error) {
+  console.log(error);
+});
 
 const server = http.createServer(app);
-const index_router = require('./Routes/index');
-const error_page = require('./Routes/404');
+const index_router = require("./Routes/index");
+const error_page = require("./Routes/404");
 
 app.use(helmet());
-app.use(compression())
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use(session({
+app.use(
+  session({
     secret: sessionSecret,
     // cookie: { maxAge: 1000 * 60 * 60 * 12},
     resave: false,
     saveUninitialized: false,
     store: store,
-    name:'sessionId'
-}));
+    name: "sessionId"
+  })
+);
 app.use(csrfProtection);
 app.use(flash());
-app.use((req, res, next)=>{
-    res.locals.isLogin = req.session.isLogin;
-    res.locals.csrfToken = req.csrfToken();
-    next();
-})
+app.use((req, res, next) => {
+  res.locals.isLogin = req.session.isLogin;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
 
 app.use((req, res, next) => {
-    // throw new Error('Sync Dummy');
-    if (!req.session.user) {
-      return next();
-    }
-    auth.User.findById(req.session.user._id)
-      .then(user => {
-        if (!user) {
-          return next();
-        }
-        req.user = user;
-        next();
-      })
-      .catch(err => {
-        next(new Error(err));
-      });
-  });
-
+  // throw new Error('Sync Dummy');
+  if (!req.session.user) {
+    return next();
+  }
+  auth.User.findById(req.session.user._id)
+    .then(user => {
+      if (!user) {
+        return next();
+      }
+      req.user = user;
+      next();
+    })
+    .catch(err => {
+      next(new Error(err));
+    });
+});
 
 app.use(index_router);
 app.use(error_page);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
 
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => {
-    console.log('Server is running on port ', PORT);
-    mongoose.connect(mongoDbUri, {useNewUrlParser: true}, (err) => {
-        if (err) {
-            throw err;            
-        }
-        console.log('Connected to database');         
-    })
-    
-    
-})
+  console.log("Server is running on port ", PORT);
+  mongoose.connect(mongoDbUri, { useNewUrlParser: true }, err => {
+    if (err) {
+      throw err;
+    }
+    console.log("Connected to database");
+  });
+});
 
 module.exports = app;
