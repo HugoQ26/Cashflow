@@ -18,11 +18,6 @@ const sessionCollection = process.env.SESSION_STORE_COLLECTION;
 const sessionSecret = process.env.SESSION_SECRET;
 const mongoDbUri = process.env.MONGO_URI;
 
-// const sessionStoreUri = process.env.SESION_STORE_URI || credentials.SESION_STORE_URI ;
-// const sessionCollection = process.env.SESSION_STORE_COLLECTION || credentials.SESSION_STORE_COLLECTION;
-// const sessionSecret = process.env.SESSION_SECRET || credentials.SESSION_SECRET;
-// const mongoDbUri = process.env.MONGO_URI || credentials.MONGO_URI;
-
 const csrfProtection = csrf();
  
 var store = new MongoDBStore({
